@@ -50,7 +50,7 @@ const App = () => {
           <ListItem button component={Link} to="/options/cli">
             <ListItemText primary="CLI Upload Page" />
           </ListItem>
-          <ListItem button component={Link} to="/options/s3client">
+          <ListItem button component={Link} to="/options/client">
             <ListItemText primary="S3 Client Page" />
           </ListItem>
         </List>  

@@ -3,7 +3,7 @@ import React from 'react'
 export default function OptionsPage() {
     return (
         <div>
-            TODO: OptionsPage here
+            <h3>Options Page</h3>
         </div>
     )
 }

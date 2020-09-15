@@ -1,0 +1,12 @@
+type Jobs @model {
+  id: ID!
+  start_ts: String!
+  end_ts: String!
+  filename: String!
+  filename_version: String!
+  status: String!
+  warnings: Int!
+  errors: Int!
+  staged: Boolean!
+  meta: String
+}

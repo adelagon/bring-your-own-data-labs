@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-webtool-dev-95256-authRole",
+            "UnauthRoleArn": "arn:aws:iam::933367311561:role/amplify-webtool-dev-95256-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::933367311561:role/amplify-webtool-dev-95256-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-webtool-dev-95256-deployment",
+            "UnauthRoleName": "amplify-webtool-dev-95256-unauthRole",
+            "StackName": "amplify-webtool-dev-95256",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:933367311561:stack/amplify-webtool-dev-95256/2fadf9e0-f6f6-11ea-922c-0a4a938c16d4",
+            "AmplifyAppId": "d3p244tad3ak2d"
+        },
+        "categories": {
+            "auth": {
+                "webtool3e466e5b": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d3p244tad3ak2d",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}

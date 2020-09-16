@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,6 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { listJobss as listJobs } from '../graphql/queries';
 
@@ -59,7 +62,7 @@ export default function JobsPage() {
                     {jobs.map((row) => (
                         <TableRow key={row.id}>
                             <TableCell component="th" scope="row">
-                                {row.id}
+                                <Link to={`/jobs/${row.id}`}>{row.id}</Link>
                             </TableCell>
                             <TableCell align="right">{row.filename}</TableCell>
                             <TableCell align="right">{row.filename_version}</TableCell>

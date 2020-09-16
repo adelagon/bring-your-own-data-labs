@@ -1,13 +1,14 @@
-import React from 'react'
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import { borders } from '@material-ui/system'
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
 
 export default function SplashPage() {
     return (
         <div>
-            <Box border={1}>
-                <h3>Welcome to BYOD Validation Tool</h3>
+            <Typography variant="h6" id="tableTitle" component="div">Welcome to BYOD Validation Tool</Typography>
                 <p>This tool will help you validate the corectness of your "Bring Your Own Data" for the workshop by doing the following checks
                 <ul>
                     <li>Data size up to 3GB max</li>
@@ -23,8 +24,7 @@ export default function SplashPage() {
                 <p>
                     Now if you are ready please click <b>Proceed</b>
                 </p>
-                <Button variant="contained" color="primary">Proceed</Button>
-            </Box>
+                <Button variant="contained" color="primary" component={Link} to="/options" style={{float: 'right'}}>Proceed</Button>
         </div>
     )
 }

@@ -18,8 +18,6 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import FilterListIcon from '@material-ui/icons/FilterList';
 

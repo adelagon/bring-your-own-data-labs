@@ -69,7 +69,7 @@ export default function JobsPage() {
                             <TableCell align="right">{row.end_ts}</TableCell>
                             <TableCell align="right">{row.warnings}</TableCell>
                             <TableCell align="right">{row.errors}</TableCell>
-                            <TableCell align="right">{row.profile_url}</TableCell>
+                            <TableCell align="right">{row.profile_uri}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

@@ -18,8 +18,8 @@ export const createJobs = /* GraphQL */ `
       staged
       profile_start_ts
       profile_end_ts
-      profile_url
-      meta
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }
@@ -42,8 +42,8 @@ export const updateJobs = /* GraphQL */ `
       staged
       profile_start_ts
       profile_end_ts
-      profile_url
-      meta
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }
@@ -66,8 +66,8 @@ export const deleteJobs = /* GraphQL */ `
       staged
       profile_start_ts
       profile_end_ts
-      profile_url
-      meta
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }

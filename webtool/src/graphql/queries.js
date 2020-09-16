@@ -15,8 +15,8 @@ export const getJobs = /* GraphQL */ `
       staged
       profile_start_ts
       profile_end_ts
-      profile_url
-      meta
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }
@@ -41,8 +41,8 @@ export const listJobss = /* GraphQL */ `
         staged
         profile_start_ts
         profile_end_ts
-        profile_url
-        meta
+        profile_uri
+        result_uri
         createdAt
         updatedAt
       }

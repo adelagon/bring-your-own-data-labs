@@ -13,22 +13,28 @@
 - [Other time formats](#other-time-formats)
 
 
-Now we are going to start cleaning, transforming, aggregating and partitioning data. For development and debugging purposes, we are going to use the Developer Endpoint and Notebook we created some steps back.
+Now we are going to start cleaning, transforming, aggregating and partitioning data. For development and debugging purposes, we are going to use the Developer Endpoint and Notebook we created some steps back (in Lab 01).
 
 ## Open the notebook
 
-Click in the Notebooks and Open the Notebook created. This will launch Jupyter Notebook. Go to New -> Sparkmagic (PySpark)
+On the left menu, go to **Dev endpoints** and click on **Notebooks**.
 
-A brand new notebook will be opened. We will be adding and running code blocks one by one, to make it easier to understand operations step by step and we will be able to find errors faster. It should look something like this:
+Select and click the Notebook that you created. On the details page of the Sagemaker notebook, click on the **Open** button. This will launch the Jupyter Notebook in a new browser tab. 
+
+Then go to New -> Sparkmagic (PySpark).
+
+A brand new notebook will be opened. We will be adding and running code blocks one by one.  This will make it easier to understand operations step by step and we will be able to find errors faster. It should look something like this:
 
 ![notebook](./img/notebook.png)
 
-1. Make sure that the notebook is running pyspark
-2. This is the plus button for adding new lines - In this image I have added two lines of code
-3. Once you add a line of code, then click Run
-4. Once it has run, then you should see a number here
+  1. Make sure that the notebook is running pyspark
+  2. This is the **+** (plus) button for adding new lines - in this sample image I have added two lines of code
+  3. Once you add the code in the line, click **Run** button
+  4. After it runs, then you should see a number in the brackets, like [1]
 
-Click plus [2] - We will start by importing all the libraries we need 
+Let us now input the code and run each line of code.
+
+Click **+** button on top to add a line - Here we will start by importing all the libraries we need:
 
 ``` python
 import sys
@@ -47,26 +53,31 @@ job = Job(glueContext)
 job.init("byod-workshop-" + str(datetime.datetime.now().timestamp()))
 
 ```
-Then click Run
+Then click **Run**
 
-**Dynamic Frame vs Spark/ Data frames**
-One of the major abstractions in Apache Spark is the SparkSQL DataFrame, which is similar to the DataFrame construct found in R and Pandas. A DataFrame is similar to a table and supports functional-style (map/reduce/filter/etc.) operations and SQL operations (select, project, aggregate).
 
-DataFrames are powerful and widely used, but they have limitations with respect to extract, transform, and load (ETL) operations. Most significantly, they require a schema to be specified before any data is loaded. To address these limitations, AWS Glue introduces the DynamicFrame. A DynamicFrame is similar to a DataFrame, except that each record is self-describing, so no schema is required initially. Instead, AWS Glue computes a schema on-the-fly when required, and explicitly encodes schema inconsistencies using a choice (or union) type.
+-------
+  **Dynamic Frame vs Spark/ Data frames**
 
-It is possible to convert a DataFrame to a DynamicFrame and vice versa with ```toDF()``` and ```fromDF()``` methods.
+  One of the major abstractions in Apache Spark is the SparkSQL DataFrame, which is similar to the DataFrame construct found in R and Pandas. A DataFrame is similar to a table and supports functional-style (map/reduce/filter/etc.) operations and SQL operations (select, project, aggregate).
 
-We are going to use the data we transformed to parquet in previous steps. For that, we create a dynamic frame pointing to the database and table that our crawler inferred, then we are going to show the schema
+  DataFrames are powerful and widely used, but they have limitations with respect to extract, transform, and load (ETL) operations. Most significantly, they require a schema to be specified before any data is loaded. To address these limitations, AWS Glue introduces the DynamicFrame. A DynamicFrame is similar to a DataFrame, except that each record is self-describing, so no schema is required initially. Instead, AWS Glue computes a schema on-the-fly when required, and explicitly encodes schema inconsistencies using a choice (or union) type.
 
-If you do not remember the database/table names, just go to Databases/ Table tab in Glue and copy its names.
+  It is possible to convert a DataFrame to a DynamicFrame and vice versa with ```toDF()``` and ```fromDF()``` methods.
 
-Click plus [2] and add the following code in a separate line
+  We are going to use the data we transformed to parquet in previous steps. For that, we create a dynamic frame pointing to the database and table that our crawler inferred, then we are going to show the schema
+
+  If you do not remember the database/table names, just go to Databases/ Table tab in Glue and copy the names.
+
+-------
+
+Click **+** button on top to add another line in the Notebook. Add the following code in that separate line:
 
 ``` python
 dynamicF = glueContext.create_dynamic_frame.from_catalog(database="DATABASE_NAME", table_name="TABLE_NAME")
 dynamicF.printSchema()
 ```
-Then click Run
+Then click **Run**
 
 ## Transformations
 
@@ -104,7 +115,7 @@ dynamicF.printSchema()
 
 Please check the datetime column schema, from the previous step. It may be string or another type different than what we may need it to be. Therefore, we are going to do some transformations.
 
-First, let's add the libraries we need to make this conversion:
+First, let us add the libraries we need to make this conversion:
 
 ``` python 
 from pyspark.sql.functions import date_format
@@ -122,7 +133,7 @@ df = dynamicF.toDF()
 df.show()
 ```
 
-
+-----------
 **ISO 8601 TIMESTAMP**
 Below is example code that can be used to do the conversion from ISO 8601 date format. Please substitute your own date-format in place of yyyy-MM-dd
 
@@ -134,6 +145,7 @@ df = df.withColumn('trx_date', to_date("trx-date", "yyyy-MM-dd").cast(DateType()
 If you do not get an error but the date column is full of NULL, then probably you didn't substitute your own date-format in yyyy-MM-dd
 If you still have errors, then please go to the other date formats section.
 
+-----------
 #### Example NY Taxis dataset
 
 ``` python 
@@ -186,12 +198,14 @@ Now, let's export our job and move it into a glue job.
 1. Click File
 2. Download as > Pyspark (txt)
 
-Please open the txt file, **Remove any line containing**:
+Please open the txt file, **REMOVE any line containing the following code** and then copy it.
 ```python
 .show()
 .printSchema()
 ```
-and copy it. In the AWS Glue Console (https://console.aws.amazon.com/glue/), click on **Jobs**, and **Add Job**
+
+
+In the AWS Glue Console (https://console.aws.amazon.com/glue/), click on **Jobs**, and **Add Job**
 
 - Name:  `byod-data-transformation`
 - IAM Role: glue-processor-role

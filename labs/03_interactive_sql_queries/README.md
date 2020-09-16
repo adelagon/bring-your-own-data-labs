@@ -159,7 +159,7 @@ You can use an already existing bucket with a dedicated folder or you can create
 
   
 
-After initial setup you can start exploring your data with Athena. You can run normal SQL queries using the **Query Editor** in Athena console. To run your first query, follow the below:
+After initial setup you can start exploring your data with Athena. You can run ANSI SQL queries using the **Query Editor** in Athena console. To run your first query, follow the below:
 
   
 
@@ -197,8 +197,34 @@ FROM {name_of_your_table}
 
 ![image](img/athena-first-query.png)
 
-  
-  
+
+ 5. You can also run queries across multiple tables.
+
+```sql
+
+SELECT a.column1, b.column2
+
+FROM {name_of_your_table1} a, {name_of_your_table2} b
+
+WHERE a.column3=b.column4
+
+```  
+
+![image](img/athena-query-2-tables.png)  
+
+6. Amazon Athena automatically stores query results and metadata information for each query that runs in a query result location that you can specify in Amazon S3. If necessary, you can access the files in this location to work with them.
+
+Get the QueryID by navigating to the History tab. Click on the State of your query.
+
+![image](img/athena-queryid.png)
+
+Files are saved to the query result location in Amazon S3 based on the name of the query, the QueryID, and the date that the query ran. Search for the output files associated with your QueryID.
+
+![image](img/athena-query-result.png)
+
+7. You can download the query results CSV file from the query pane immediately after you run a query.
+
+![image](img/athena-query-csv.png)
 
 ## Amazon Athena Best Practices
 

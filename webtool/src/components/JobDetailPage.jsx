@@ -1,8 +1,14 @@
 import React from 'react'
 
+import { API, graphqlOperation } from 'aws-amplify'
+import * as queries from '../graphql/queries'
+
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import TextField from '@material-ui/core/TextField'
+
+// const testJob = API.graphql(graphqlOperation(queries.getJobs, { id: 'test' }))
+// console.log(testJob)
 
 export default function JobDetailPage() {
     return (

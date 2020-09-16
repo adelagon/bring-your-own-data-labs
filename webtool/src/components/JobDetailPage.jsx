@@ -12,8 +12,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
 
 import awsExports from '../aws-exports';
+import { Paper } from '@material-ui/core';
+import { file } from '@babel/types';
 Amplify.configure(awsExports);
 
 export default function JobDetailPage(props) {
@@ -57,48 +60,49 @@ export default function JobDetailPage(props) {
     }
 
     return (
-        <div>
-            <h3>Validation Job Status</h3>
-                <List>
-                    <ListItem><b>Validation Job ID:</b> </ListItem>
-                    <ListItem><b>Validation Job Start Date:</b> </ListItem>
-                    <ListItem><b>Validation Job End Date:</b> </ListItem>
-                    <ListItem><b>File Name:</b> </ListItem>
-                    <ListItem><b>File Version:</b> </ListItem>
-                    <ListItem><b>S3 URL: </b></ListItem>
-                    <ListItem><b>Result:</b> </ListItem>
-                    <ListItem><b>Report:</b> </ListItem>
-                </List>
-                
-                <Button variant="contained" color="primary">Share Result</Button>
-                <Button variant="contained" color="primary">View Profile</Button>
-                    <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop
-                    </Button>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">{"Are you sure you want to proceed with Staging the Data?"}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                                Disagree
-                            </Button>
-                            <Button onClick={() => {
-                                updateData();
-                                handleClose();
-                                }} color="primary" autoFocus>
-                                Agree
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                {/* <Button onClick={updateData} variant="contained" color="primary">Stage Data for Workshop</Button> */}
+        <div className>
+        <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
+            <Paper elevation={3}>
+                    <List>
+                        <ListItem><b>Validation Job ID: </b>{field.id}</ListItem>
+                        <ListItem><b>Validation Job Start Date:</b>{field.start_ts}</ListItem>
+                        <ListItem><b>Validation Job End Date: </b>{field.end_ts}</ListItem>
+                        <ListItem><b>File Name: </b> {field.filename}</ListItem>
+                        <ListItem><b>File Version: </b> {field.filename_version}</ListItem>
+                        <ListItem><b>S3 URL: </b> {field.result_uri}</ListItem>
+                        <ListItem><b>Result: </b> {field.warnings} warning(s)</ListItem>
+                        <ListItem><b>Report: </b> </ListItem>
+                    </List>
+                    
+                    <Button variant="contained" color="primary">Share Result</Button>
+                    <Button variant="contained" color="primary">View Profile</Button>
+                        <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop
+                        </Button>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Are you sure you want to proceed with Staging the Data?"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} color="primary">
+                                    Disagree
+                                </Button>
+                                <Button onClick={() => {
+                                    updateData();
+                                    handleClose();
+                                    }} color="primary" autoFocus>
+                                    Agree
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+            </Paper>
         </div>
     )
 }

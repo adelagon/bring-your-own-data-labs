@@ -10,6 +10,6 @@ type Jobs @model {
   staged: Boolean!
   profile_start_ts: String
   profile_end_ts: String
-  profile_url: String
-  meta: String
+  profile_uri: String
+  result_uri: String
 }

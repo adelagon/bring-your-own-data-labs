@@ -13,6 +13,9 @@ export const getJobs = /* GraphQL */ `
       warnings
       errors
       staged
+      profile_start_ts
+      profile_end_ts
+      profile_url
       meta
       createdAt
       updatedAt
@@ -36,6 +39,9 @@ export const listJobss = /* GraphQL */ `
         warnings
         errors
         staged
+        profile_start_ts
+        profile_end_ts
+        profile_url
         meta
         createdAt
         updatedAt

@@ -5,21 +5,20 @@ import { getJobs as getJob } from '../graphql/queries';
 
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import TextField from '@material-ui/core/TextField'
 
 import awsExports from '../aws-exports';
 Amplify.configure(awsExports);
 
-export default function JobDetailPage() {
+export default function JobDetailPage(props) {
     const [field, setFields] = useState([]);
 
     useEffect(() => {
-        getField()
+        fetchField()
     }, []);
 
-    async function getField() {
+    async function fetchField() {
         try {
-            const getData = await API.graphql(graphqlOperation(getJob, {id: '88867fa8-698e-4fe6-9091-6efc3aa305cc'}));
+            const getData = await API.graphql(graphqlOperation(getJob, {id: (props.match.params.id)} ));
             const getField = getData.data.getJobs;
             console.log(getField);
             setFields(getField);

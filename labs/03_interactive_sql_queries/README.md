@@ -226,6 +226,7 @@ Files are saved to the query result location in Amazon S3 based on the name of t
 
 ![image](img/athena-query-csv.png)
 
+
 ## Amazon Athena Best Practices
 
 **[OPTIONAL]**

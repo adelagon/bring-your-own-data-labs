@@ -161,3 +161,10 @@ If your table has sub-partitions (for example; partition by year and month), cre
    
  8. Run the ```SHOW PARTITIONS {curated_table_name}``` query again and wait for the query to finish. You will notice in the results that Athena now recognises the new partitions.
    ![image](img/athena_showpart2.png)
+
+
+## Using a SQL Client with Athena
+**[OPTIONAL]**
+
+> Note: This lab will require you to have IAM user access keys
+> 

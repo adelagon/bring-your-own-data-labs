@@ -4,9 +4,13 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { getJobs as getJob } from '../graphql/queries';
 import { updateJobs as updateJob} from '../graphql/mutations';
 
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Button from '@material-ui/core/Button'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -204,25 +208,59 @@ export default function JobDetailPage(props) {
 
     return (
       <div>
-        <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
-          <List>
-            <ListItem><b>Validation Job ID: </b>{field.id}</ListItem>
-            <ListItem><b>Validation Job Start Date: </b>{field.start_ts}</ListItem>
-            <ListItem><b>Validation Job End Date: </b>{field.end_ts}</ListItem>
-            <ListItem><b>File Name: </b> {field.filename}</ListItem>
-            <ListItem><b>File Version: </b> {field.filename_version}</ListItem>
-            <ListItem><b>Status: </b> {field.status}</ListItem>
-            <ListItem><b>Warnings: </b> {field.warnings} warning(s)</ListItem>
-            <ListItem><b>Errors: </b> {field.errors} error(s)</ListItem>
-            <ListItem>
-              <b>Validation Report: </b>
-              {field.result_uri ? <a href="#/" onClick={getResult}>Download</a> : 'Unavailable'}
-            </ListItem>
-            <ListItem>
-              <b>Data Profile: </b>
-              {field.profile_uri ? <a href="#/" onClick={getProfile}>Download</a> : 'Unavailable'}  
-            </ListItem>
-          </List>
+        <Typography variant="h5" id="tableTitle" component="div" align="center">Validation Job Details</Typography>
+          <br />
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableBody>
+                <TableRow>
+                  <TableCell align="left"><b>Validation Job ID</b></TableCell>
+                  <TableCell align="left">{field.id}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>File Name</b></TableCell>
+                  <TableCell align="left">{field.filename}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>File Version</b></TableCell>
+                  <TableCell align="left">{field.filename_version}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Status</b></TableCell>
+                  <TableCell align="left">{field.status}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Warnings</b></TableCell>
+                  <TableCell align="left">{field.warnings}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Errors</b></TableCell>
+                  <TableCell align="left">{field.errors}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Start Date</b></TableCell>
+                  <TableCell align="left">{field.start_ts}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>End Date</b></TableCell>
+                  <TableCell align="left">{field.end_ts}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Validation Report</b></TableCell>
+                  <TableCell align="left">
+                    {field.result_uri ? <a href="#/" onClick={getResult}>Download</a> : 'Unavailable'}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left"><b>Data Profiling Report</b></TableCell>
+                  <TableCell align="left">
+                  {field.profile_uri ? <a href="#/" onClick={getProfile}>Download</a> : 'Unavailable'}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
           <div className={classes.root}>
             <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button>
             <Button variant="contained" color="primary" onClick={handleClickPOpen}>Run Data Profiling Job</Button>

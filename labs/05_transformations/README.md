@@ -21,7 +21,7 @@ On the left menu, go to **Dev endpoints** and click on **Notebooks**.
 
 Select and click the Notebook that you created. On the details page of the Sagemaker notebook, click on the **Open** button. This will launch the Jupyter Notebook in a new browser tab. 
 
-Then go to New -> Sparkmagic (PySpark).
+Then go to **New** -> Sparkmagic (PySpark).
 
 A brand new notebook will be opened. We will be adding and running code blocks one by one.  This will make it easier to understand operations step by step and we will be able to find errors faster. It should look something like this:
 
@@ -57,9 +57,9 @@ Then click **Run**
 
 
 -------
-  **Dynamic Frame vs Spark/ Data frames**
+  &#128161;  **Glue DynamicFrame vs Apache Spark SQL DataFrames**
 
-  One of the major abstractions in Apache Spark is the SparkSQL DataFrame, which is similar to the DataFrame construct found in R and Pandas. A DataFrame is similar to a table and supports functional-style (map/reduce/filter/etc.) operations and SQL operations (select, project, aggregate).
+  One of the major abstractions in Apache Spark is the Spark SQL DataFrame, which is similar to the DataFrame construct found in R and Pandas. A DataFrame is similar to a table and supports functional-style (map/reduce/filter/etc.) operations and SQL operations (select, project, aggregate).
 
   DataFrames are powerful and widely used, but they have limitations with respect to extract, transform, and load (ETL) operations. Most significantly, they require a schema to be specified before any data is loaded. To address these limitations, AWS Glue introduces the DynamicFrame. A DynamicFrame is similar to a DataFrame, except that each record is self-describing, so no schema is required initially. Instead, AWS Glue computes a schema on-the-fly when required, and explicitly encodes schema inconsistencies using a choice (or union) type.
 
@@ -83,7 +83,7 @@ Then click **Run**
 
 You probably have a large number of columns and some of them can have complicated names. To analyze the data, perhaps we may not need all the columns, just a small set of them, and to make easier to recall, we may want to change the name of the columns. Therefore, we are going to select only the columns we are interested in, drop the rest of them and we are going to rename them.
 
-### Drop Columns
+### Drop Columns using Glue DynamicFrame
 
 There are two different ways to drop columns
 
@@ -111,7 +111,7 @@ dynamicF = dynamicF.select_fields(['tpep_pickup_datetime','trip_distance']).rena
 dynamicF.printSchema()
 ```
 
-### Convert to Time stamp
+### Convert to Time Stamp using Spark Dataframe
 
 Please check the datetime column schema, from the previous step. It may be string or another type different than what we may need it to be. Therefore, we are going to do some transformations.
 
@@ -135,6 +135,7 @@ df.show()
 
 -----------
 **ISO 8601 TIMESTAMP**
+
 Below is example code that can be used to do the conversion from ISO 8601 date format. Please substitute your own date-format in place of yyyy-MM-dd
 
 ``` python 
@@ -145,6 +146,21 @@ df = df.withColumn('trx_date', to_date("trx-date", "yyyy-MM-dd").cast(DateType()
 If you do not get an error but the date column is full of NULL, then probably you didn't substitute your own date-format in yyyy-MM-dd
 If you still have errors, then please go to the other date formats section.
 
+**UNIX TIMESTAMP**
+
+``` python
+## Adding trx_date date column with yyyy-MM-dd format converting a current timestamp/unix date format
+df = df.withColumn('trx_date', date_format(from_unixtime(df['{YOUR_DATE_COL_NAME}']), "yyyy-MM-dd").cast(DateType()))
+```
+
+**OTHER DATE FORMATS**
+
+To convert unique data formats, we use to_date() function to specify how to parse your value specifying date literals in second attribute (Look at resources section for more information).
+
+``` python
+## Adding trx_date date column with yyyy-MM-dd format converting a current timestamp/unix date format
+df = df.withColumn('trx_date', date_format(to_date(df['{YOUR_DATE_COL_NAME}'], {DATE_LITERALS}), "yyyy-MM-dd").cast(DateType()))
+```
 -----------
 #### Example NY Taxis dataset
 
@@ -155,6 +171,8 @@ df.show()
 ```
 
 ## Partitioning
+
+### Partitioning using Spark Dataframe
 
 Partitioning the data greatly increases the performance of your queries and reduce costs. For example, if you only need last month's data from a large dataset, if the data is partitioned by day, month and year, then you can use a "where" clause in your query and Athena will only use relevant folders and will not scan the unnecessary ones.
 
@@ -177,10 +195,10 @@ df.show()
 
 See that there are three extra fields for year, month and day - If you want, you can also drop the "trx_date" column using ```df.drop('trx_date')``` - Please note that since we are using data frame instead of dynamic frame, we can not use the same method *drop_fields* introduced earlier.
 
-## Run this in a Glue Job
+## Saving Transformed Data to S3
 
 
-Please add these lines to the end of your notebook 
+Please add these lines to the end of your notebook:
 
 ``` python
 ## DONT FORGET TO PUT IN YOUR BUCKET NAME.
@@ -195,7 +213,7 @@ Now, let's export our job and move it into a glue job.
 
 ![exporting notebook to glue](./img/notebook-to-glue.png)
 
-1. Click File
+1. Click **File**
 2. Download as > Pyspark (txt)
 
 Please open the txt file, **REMOVE any line containing the following code** and then copy it.
@@ -205,7 +223,7 @@ Please open the txt file, **REMOVE any line containing the following code** and 
 ```
 
 
-In the AWS Glue Console (https://console.aws.amazon.com/glue/), click on **Jobs**, and **Add Job**
+In the [AWS Glue Console](https://console.aws.amazon.com/glue/), click on **Jobs**, and **Add Job**
 
 - Name:  `byod-data-transformation`
 - IAM Role: glue-processor-role
@@ -213,28 +231,13 @@ In the AWS Glue Console (https://console.aws.amazon.com/glue/), click on **Jobs*
 - Monitoring - Job metrics
 - Connections - Save job and edit script
 - Now, paste the txt downloaded from the notebook
-- Save and Run
+- **Save** and **Run**
 
-## Other time formats
+----------
 
-Now, depending on the time format, please select which line of code you will use according to your date type format.
+&#128161;  For more information regarding Glue built-in transform functions refer to - [Glue Built-In Transforms](https://docs.aws.amazon.com/glue/latest/dg/built-in-transforms.html)
 
-**UNIX TIMESTAMP**
-
-``` python
-## Adding trx_date date column with yyyy-MM-dd format converting a current timestamp/unix date format
-df = df.withColumn('trx_date', date_format(from_unixtime(df['{YOUR_DATE_COL_NAME}']), "yyyy-MM-dd").cast(DateType()))
-```
-
-**OTHER DATE FORMATS**
-
-To convert unique data formats, we use to_date() function to specify how to parse your value specifying date literals in second attribute (Look at resources section for more information).
-
-``` python
-## Adding trx_date date column with yyyy-MM-dd format converting a current timestamp/unix date format
-df = df.withColumn('trx_date', date_format(to_date(df['{YOUR_DATE_COL_NAME}'], {DATE_LITERALS}), "yyyy-MM-dd").cast(DateType()))
-```
-
+--------
 Now go to last lab : [Wrap up and Clean](../99_Wrap_up_and_clean/README.md)
 
 

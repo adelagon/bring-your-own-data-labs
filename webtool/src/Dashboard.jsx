@@ -134,6 +134,8 @@ export default function Dashboard() {
     setOpen(false);
   };
 
+  document.title = "BYOD - Data Validator Tool";
+  
   return (
     <BrowserRouter>
       <div className={classes.root}>

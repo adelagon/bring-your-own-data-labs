@@ -16,9 +16,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import awsExports from '../aws-exports';
+import awsSDKExports from '../aws-sdk-exports';
+
 import { Paper } from '@material-ui/core';
 import { file } from '@babel/types';
+
+import Auth from'@aws-amplify/auth';
+import AWS from 'aws-sdk';
+import Lambda from 'aws-sdk/clients/lambda';
+
 Amplify.configure(awsExports);
+AWS.config.update({region: awsSDKExports.region});
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,51 +78,76 @@ export default function JobDetailPage(props) {
         }
     }
 
+    async function stageData(fn, fnv){
+      Auth.currentCredentials()
+        .then(credentials => {
+          const lambda = new Lambda({
+            credentials: Auth.essentialCredentials(credentials)
+          });
+          var robj = lambda.invoke({
+            FunctionName: awsSDKExports.stager_function,
+            Payload: JSON.stringify({
+              source_object: fn,
+              source_version: fnv,
+            })
+          });
+          robj.on('success', function(response) {
+            console.log("SUCCESS", response)
+          });
+          robj.on('error', function(response) {
+            console.log("ERROR", response);
+          });
+          robj.on('complete', function(response) {
+            console.log("COMPLETE", response);
+          });
+          robj.send();
+        })
+    }
     return (
-        <div>
-            <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
-                    <List>
-                        <ListItem><b>Validation Job ID:</b>{field.id}</ListItem>
-                        <ListItem><b>Validation Job Start Date:</b>{field.start_ts}</ListItem>
-                        <ListItem><b>Validation Job End Date: </b>{field.end_ts}</ListItem>
-                        <ListItem><b>File Name: </b> {field.filename}</ListItem>
-                        <ListItem><b>File Version: </b> {field.filename_version}</ListItem>
-                        <ListItem><b>Status: </b> {field.status}</ListItem>
-                        <ListItem><b>Warnings: </b> {field.warnings} warning(s)</ListItem>
-                        <ListItem><b>Errors: </b> {field.errors} error(s)</ListItem>
-                        <ListItem><b>Report: </b> </ListItem>
-                        <ListItem><b>Result: </b> {field.result_uri}</ListItem>
-                    </List>
-                    <div className={classes.root}>
-                    <Button variant="contained" color="primary">Share Result</Button>
-                    <Button variant="contained" color="primary">View Profile</Button>
-                    <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop
-                    </Button>
-                    </div>
-                        <Dialog
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                        >
-                            <DialogTitle id="alert-dialog-title">{"Are you sure you want to proceed with Staging the Data?"}</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                    Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose} color="primary">
-                                    Disagree
-                                </Button>
-                                <Button onClick={() => {
-                                    updateData();
-                                    handleClose();
-                                    }} color="primary" autoFocus>
-                                    Agree
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+      <div>
+        <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
+          <List>
+            <ListItem><b>Validation Job ID:</b>{field.id}</ListItem>
+            <ListItem><b>Validation Job Start Date:</b>{field.start_ts}</ListItem>
+            <ListItem><b>Validation Job End Date: </b>{field.end_ts}</ListItem>
+            <ListItem><b>File Name: </b> {field.filename}</ListItem>
+            <ListItem><b>File Version: </b> {field.filename_version}</ListItem>
+            <ListItem><b>Status: </b> {field.status}</ListItem>
+            <ListItem><b>Warnings: </b> {field.warnings} warning(s)</ListItem>
+            <ListItem><b>Errors: </b> {field.errors} error(s)</ListItem>
+            <ListItem><b>Report: </b> </ListItem>
+            <ListItem><b>Result: </b> {field.result_uri}</ListItem>
+          </List>
+          <div className={classes.root}>
+            <Button variant="contained" color="primary">Share Result</Button>
+            <Button variant="contained" color="primary">View Profile</Button>
+            <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button>
+          </div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Are you sure you want to proceed with Staging the Data?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                    Disagree
+                </Button>
+                <Button onClick={() => {
+                    updateData();
+                    stageData(field.filename, field.filename_version);
+                    handleClose();
+                    }} color="primary" autoFocus>
+                    Agree
+                </Button>
+              </DialogActions>
+            </Dialog>
         </div>
     )
 }

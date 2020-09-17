@@ -3,12 +3,9 @@ AWS.config.update({region: process.env['REGION']});
 s3 = new AWS.S3();
 
 exports.handler = async (event, context, callback) => {
-    // TODO implement
-
     let source_object = process.env['SOURCE_BUCKET'] + '/' + event.source_object + '?versionId=' + event.source_version;
     let dest_object = process.env['STAGE_BUCKET'] + '/' + event.source_object;
 
-    console.log(event, source_object, dest_object, event.source_object);
     s3.copyObject({
       CopySource: source_object,
       Bucket: process.env['STAGE_BUCKET'],

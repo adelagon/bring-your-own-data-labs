@@ -28,7 +28,7 @@ export default function CLIOptionPage() {
                     <p>To upload your files through AWS CLI, all you have to do is provision the IAM credentials of the source machine and then run this command: </p>
                     <Box border={1} px={1} py={1}>aws s3 cp {"<"}directory{">"} s3://mhtan-byod-12345/raw --recursive</Box>
                     <p>For more details on how to upload files to S3 using the AWS CLI, you may visit: </p>
-                    <p><a target="_blank" href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html">https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html</a></p>
+                    <p><a target="_blank" rel="noopener noreferrer" href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html">https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html</a></p>
                     <div className={classes.root}>
                         <Button variant="contained" color="secondary" component={Link} to="/upload" style={{float: 'right'}}>Back</Button>
                         <Button variant="contained" color="primary" component={Link} to="/jobs" style={{float: 'right'}}>View Jobs</Button>

@@ -164,9 +164,9 @@ export default function Dashboard() {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List key="mainList">{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List>
+          <List key="secondaryList">{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />

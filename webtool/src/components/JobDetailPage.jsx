@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
 
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { getJobs as getJob } from '../graphql/queries';
@@ -18,9 +17,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import awsExports from '../aws-exports';
 import awsSDKExports from '../aws-sdk-exports';
-
-import { Paper } from '@material-ui/core';
-import { file } from '@babel/types';
 
 import Auth from'@aws-amplify/auth';
 import AWS from 'aws-sdk';
@@ -65,7 +61,7 @@ export default function JobDetailPage(props) {
 
     useEffect(() => {
         fetchField()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     async function fetchField() {
         try {
@@ -85,7 +81,8 @@ export default function JobDetailPage(props) {
                 staged: status
             };
 
-            const updatedStage = await API.graphql(graphqlOperation(updateJob, {input: updateStage}))
+            const updatedStage = await API.graphql(graphqlOperation(updateJob, {input: updateStage}));
+            console.log("[SUCCESS]", updatedStage);
         } catch (err) {
             console.log("[ERROR] Updating data could not be completed: ", err)
         }
@@ -215,11 +212,11 @@ export default function JobDetailPage(props) {
             <ListItem><b>Errors: </b> {field.errors} error(s)</ListItem>
             <ListItem>
               <b>Validation Report: </b>
-              {field.result_uri ? <a href="#" onClick={getResult}>Download</a> : 'Unavailable'}
+              {field.result_uri ? <a href="#/" onClick={getResult}>Download</a> : 'Unavailable'}
             </ListItem>
             <ListItem>
               <b>Data Profile: </b>
-              {field.profile_uri ? <a href="#" onClick={getProfile}>Download</a> : 'Unavailable'}  
+              {field.profile_uri ? <a href="#/" onClick={getProfile}>Download</a> : 'Unavailable'}  
             </ListItem>
           </List>
           <div className={classes.root}>
@@ -263,9 +260,9 @@ export default function JobDetailPage(props) {
             <DialogTitle id="alert-dialog-title">{"Run Profiling Job?"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                <p>Profiling gives you and the workshop personnel better insights about your data in order to understand the necessary transformations and analytics during the workshop.</p>
-                <p>Running a Profiling job might take some time, you can check back to this page every now and then to check the profiling status.</p>
-                <p>Do you want to run a Profiling job now?</p>
+                <span>Profiling gives you and the workshop personnel better insights about your data in order to understand the necessary transformations and analytics during the workshop.</span>
+                <span>Running a Profiling job might take some time, you can check back to this page every now and then to check the profiling status.</span>
+                <span>Do you want to run a Profiling job now?</span>
               </DialogContentText>
             </DialogContent>
             <DialogActions>

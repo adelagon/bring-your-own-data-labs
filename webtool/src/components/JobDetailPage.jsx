@@ -225,7 +225,7 @@ export default function JobDetailPage(props) {
                   }} color="primary" autoFocus variant="contained">
                   Yes
               </Button>
-              <Button onClick={handlePClose} color="primary" variant="contained">
+              <Button onClick={handlePClose} color="secondary" variant="contained">
                   No
               </Button>
             </DialogActions>

@@ -5,7 +5,7 @@
 Before getting straight into the lab, you need to follow these preparation steps. The labs are designed in a "bring your own data" mindset, these instructions are here to help you prepare your own dataset.
  
 - Choose your preferred dataset.
-  - The best way is to bring your data, but if you just want to trial the workshop, you can use sample public datasets:
+  - The best way is to bring your data which can be facilitated using the [Data Validation Tool](90_data_preparation_tool/README.md), but if you just want to trial the workshop, you can use sample public datasets:
   - You can download free samples from different websites. https://www.kaggle.com/ is a good example that we used before. Most probably the dataset will include date column(s), which will be used a lot in the labs.
 - Your dataset size should not exceed 2 – 3 GB max.
 - Data with multiple related tables via foreign keys are supported.

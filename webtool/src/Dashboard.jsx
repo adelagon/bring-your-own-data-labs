@@ -177,9 +177,9 @@ export default function Dashboard() {
                   <Route exact path="/" component={SplashPage} />
                   <Route exact path="/jobs" component={JobsPage} />
                   <Route exact path="/jobs/:id" component={JobDetailPage} />
-                  <Route exact path="/options" component={OptionsPage} />
-                  <Route exact path="/options/cli" component={CLIOptionPage} />
-                  <Route exact path="/options/client" component={S3ClientOptionPage} />
+                  <Route exact path="/upload" component={OptionsPage} />
+                  <Route exact path="/upload/cli" component={CLIOptionPage} />
+                  <Route exact path="/upload/client" component={S3ClientOptionPage} />
                   <Route exact path="/dashboard" component={Dashboard} />
                 </Switch>
               </Paper>

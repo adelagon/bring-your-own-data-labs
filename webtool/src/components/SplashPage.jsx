@@ -24,7 +24,7 @@ export default function SplashPage() {
                 <p>
                     Now if you are ready please click <b>Proceed</b>
                 </p>
-                <Button variant="contained" color="primary" component={Link} to="/options" style={{float: 'right'}}>Proceed</Button>
+                <Button variant="contained" color="primary" component={Link} to="/upload" style={{float: 'right'}}>Proceed</Button>
         </div>
     )
 }

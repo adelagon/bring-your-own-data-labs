@@ -18,10 +18,10 @@ export default function OptionsPage() {
             <p>We also have created an IAM user named: ___________ that you may use for uploading data into your bucket</p>
             <p>You have the following options to upload your data into this bucket. Please click the following options that you want to explore: </p>
             <Box mx="auto" my={1}>
-                <Button variant="contained" color="primary" style={{float: 'center', maxWidth: '100%', maxHeight: '100%', minWidth: '100%', minHeight: '100%'}} component={Link} to='/options/cli'>Option 1: CLI Upload</Button>
+                <Button variant="contained" color="primary" style={{float: 'center', maxWidth: '100%', maxHeight: '100%', minWidth: '100%', minHeight: '100%'}} component={Link} to='/upload/cli'>Option 1: CLI Upload</Button>
             </Box>
             <Box mx="auto" my="auto">
-                <Button variant="contained" color="primary" style={{float: 'center', maxWidth: '100%', maxHeight: '100%', minWidth: '100%', minHeight: '100%'}} component={Link} to='/options/client'>Option 2: S3 Browser</Button>
+                <Button variant="contained" color="primary" style={{float: 'center', maxWidth: '100%', maxHeight: '100%', minWidth: '100%', minHeight: '100%'}} component={Link} to='/upload/client'>Option 2: S3 Browser</Button>
             </Box>
         </Container>
         </div>

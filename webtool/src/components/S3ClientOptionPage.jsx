@@ -32,7 +32,7 @@ export default function S3ClientOptionPage() {
                     <p><a target="_blank" href="https://s3browser.com/s3browser-first-run.aspx">https://s3browser.com/s3browser-first-run.aspx</a></p>
                     <p>Whenever the files are uploaded into the mhtan-byod-12345 bucket, the data validation process will start automatically. To see the status of the data validation jobs, you may click the <b>View Jobs</b> button below.</p>
                     <div className={classes.root}>
-                        <Button variant="contained" color="secondary" component={Link} to="/options" style={{float: 'right'}}>Back</Button>
+                        <Button variant="contained" color="secondary" component={Link} to="/upload" style={{float: 'right'}}>Back</Button>
                         <Button variant="contained" color="primary" component={Link} to="/jobs" style={{float: 'right'}}>View Jobs</Button>
                     </div>
             </Container>

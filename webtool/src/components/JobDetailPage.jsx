@@ -68,6 +68,10 @@ export default function JobDetailPage(props) {
             const getData = await API.graphql(graphqlOperation(getJob, {id: (props.match.params.id)} ));
             const getField = getData.data.getJobs;
             console.log(getField);
+            let sdate = new Date(getField.start_ts);
+            let edate = new Date(getField.end_ts);
+            getField.start_ts = sdate.toLocaleString();
+            getField.end_ts = edate.toLocaleString();
             setFields(getField);
         } catch (err) {
             console.log("[ERROR] Fetching data: ", err)

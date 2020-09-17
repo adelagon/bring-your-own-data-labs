@@ -218,6 +218,12 @@ export default function JobsPage() {
   async function fetchJobs() {
     try {
       const jobsData = await API.graphql(graphqlOperation(listJobs));
+      jobsData.data.listJobss.items.forEach(item => {
+        let sdate = new Date(item.start_ts);
+        let edate = new Date(item.end_ts);
+        item.start_ts = sdate.toLocaleString();
+        item.end_ts = edate.toLocaleString();
+      });
       const jobsList = jobsData.data.listJobss.items;
       setRows(jobsList);
     } catch (err) {

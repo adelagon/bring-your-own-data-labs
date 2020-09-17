@@ -65,11 +65,11 @@ export default function JobDetailPage(props) {
             console.log("[ERROR] Fetching data: ", err)
         }
     }
-    async function updateData() {
+    async function updateData(status) {
         try {
             const updateStage = {
                 id: (props.match.params.id),
-                staged: 'pending'
+                staged: status
             };
 
             const updatedStage = await API.graphql(graphqlOperation(updateJob, {input: updateStage}))
@@ -92,10 +92,14 @@ export default function JobDetailPage(props) {
             })
           });
           robj.on('success', function(response) {
-            console.log("SUCCESS", response)
+            console.log("SUCCESS", response);
+            updateData("yes");
+            handleClose();
           });
           robj.on('error', function(response) {
             console.log("ERROR", response);
+            updateData("fail");
+            handleClose();
           });
           robj.on('complete', function(response) {
             console.log("COMPLETE", response);
@@ -140,9 +144,8 @@ export default function JobDetailPage(props) {
                     Disagree
                 </Button>
                 <Button onClick={() => {
-                    updateData();
+                    updateData("pending");
                     stageData(field.filename, field.filename_version);
-                    handleClose();
                     }} color="primary" autoFocus>
                     Agree
                 </Button>

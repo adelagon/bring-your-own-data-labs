@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-webtool-dev-95256-deployment",
-          "S3Key": "amplify-builds/stager-52662b6d5272356d484e-build.zip"
+          "S3Key": "amplify-builds/stager-792b2b37754764754872-build.zip"
         }
       }
     },

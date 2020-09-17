@@ -16,7 +16,10 @@ export const createJobs = /* GraphQL */ `
       warnings
       errors
       staged
-      meta
+      profile_start_ts
+      profile_end_ts
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }
@@ -37,7 +40,10 @@ export const updateJobs = /* GraphQL */ `
       warnings
       errors
       staged
-      meta
+      profile_start_ts
+      profile_end_ts
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }
@@ -58,7 +64,10 @@ export const deleteJobs = /* GraphQL */ `
       warnings
       errors
       staged
-      meta
+      profile_start_ts
+      profile_end_ts
+      profile_uri
+      result_uri
       createdAt
       updatedAt
     }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { getJobs as getJob } from '../graphql/queries';
@@ -25,6 +26,7 @@ import Auth from'@aws-amplify/auth';
 import AWS from 'aws-sdk';
 import Lambda from 'aws-sdk/clients/lambda';
 import SQS from 'aws-sdk/clients/sqs';
+import S3 from 'aws-sdk/clients/s3';
 
 Amplify.configure(awsExports);
 AWS.config.update({region: awsSDKExports.region});
@@ -158,6 +160,45 @@ export default function JobDetailPage(props) {
           robj.send();
         })
     }
+
+    async function getProfile() {
+      Auth.currentCredentials()
+        .then(credentials => {
+          const s3 = new S3({
+            credentials: Auth.essentialCredentials(credentials)
+          });
+          let u = new URL(field.profile_uri);
+          let key = u.pathname.substring(1);
+          var params = {
+            Bucket: awsSDKExports.target_s3_bucket,
+            Key: key,
+            Expires: awsSDKExports.presigned_url_expires
+          };
+          const profile_url = s3.getSignedUrl('getObject', params);
+          console.log("[SUCCESS]", profile_url);
+          window.open(profile_url, "_blank");
+        })
+    }
+
+    async function getResult() {
+      Auth.currentCredentials()
+        .then(credentials => {
+          const s3 = new S3({
+            credentials: Auth.essentialCredentials(credentials)
+          });
+          let u = new URL(field.result_uri);
+          let key = u.pathname.substring(1);
+          var params = {
+            Bucket: awsSDKExports.target_s3_bucket,
+            Key: key,
+            Expires: awsSDKExports.presigned_url_expires
+          };
+          const result_url = s3.getSignedUrl('getObject', params);
+          console.log("[SUCCESS]", result_url);
+          window.open(result_url, "_blank");
+        })
+    }
+
     return (
       <div>
         <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
@@ -170,12 +211,18 @@ export default function JobDetailPage(props) {
             <ListItem><b>Status: </b> {field.status}</ListItem>
             <ListItem><b>Warnings: </b> {field.warnings} warning(s)</ListItem>
             <ListItem><b>Errors: </b> {field.errors} error(s)</ListItem>
-            <ListItem><b>Report: </b> </ListItem>
-            <ListItem><b>Result: </b> {field.result_uri}</ListItem>
+            <ListItem>
+              <b>Validation Report: </b>
+              {field.result_uri ? <a href="#" onClick={getResult}>Download</a> : 'Unavailable'}
+            </ListItem>
+            <ListItem>
+              <b>Data Profile: </b>
+              {field.profile_uri ? <a href="#" onClick={getProfile}>Download</a> : 'Unavailable'}  
+            </ListItem>
           </List>
           <div className={classes.root}>
             <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button>
-            <Button variant="contained" color="primary" onClick={handleClickPOpen}>Profile Data</Button>
+            <Button variant="contained" color="primary" onClick={handleClickPOpen}>Run Data Profiling Job</Button>
             <Button variant="contained" color="primary" disabled>Share Results</Button>
           </div>
           {/* Stage Data Dialog */}

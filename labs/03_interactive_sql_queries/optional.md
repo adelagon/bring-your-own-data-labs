@@ -8,6 +8,7 @@
   - [Create a Table](#create-a-table)
     - [Adding Partition Meta-data](#adding-partition-meta-data)
 - [Detecting New Partitions](#detecting-new-partitions)
+- [Using Athena with the JDBC Driver](#using-athena-with-the-jdbc-driver)
 
 ## Introduction
 
@@ -15,6 +16,7 @@ These are optional labs:
 
  - [Creating Amazon Athena Database and Table](#creating-amazon-athena-database-and-table): Should be completed if you want Athena to create the database and table and not Glue Crawlers
  - [Detecting New Partitions](#detecting-new-partitions): Should be completed if you manually added a partition that conforms with Hive format, and do not want want to use Glue crawlers to add the partitions to the table.
+ - [Using Athena with the JDBC Driver](#using-athena-with-the-jdbc-driver): Should be completed if you want to use another BI Tool or SQL client for your Athena queries.
 
 ## Creating Amazon Athena Database and Table
   
@@ -163,8 +165,19 @@ If your table has sub-partitions (for example; partition by year and month), cre
    ![image](img/athena_showpart2.png)
 
 
-## Using a SQL Client with Athena
+## Using Athena with the JDBC Driver
 **[OPTIONAL]**
 
 > Note: This lab will require you to have IAM user access keys
 > 
+You can use a JDBC connection to connect Athena to business intelligence tools and other applications, such as [SQL Workbench](http://www.sql-workbench.eu/downloads.html).
+
+1. Download the appropriate [JDBC driver](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html) based on your JRE version.
+2. Generate and take note of your [Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey).
+3. Install and configure the JDBC Driver on SQL Workbench. The default [Athena Service Endpoint](https://docs.aws.amazon.com/general/latest/gr/athena.html#athena_region) is based on the region you're using.
+   ![image](img/athena-jdbc-driver.png)
+      ![image](img/athena-jdbc-endpoints.png)
+4. When creating an new connection on SQL Workbench, make sure to indicate the S3OutputLocation parameter under Extended Properties.
+   ![image](img/athena-jdbc-extended.png)
+5. Connect and run your queries.
+   ![image](img/athena-jdbc-query.png)

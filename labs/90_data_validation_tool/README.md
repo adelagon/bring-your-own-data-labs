@@ -1,4 +1,4 @@
-# Data Preparation Tool
+# Data Validation Tool
 
 ## Architecture
 

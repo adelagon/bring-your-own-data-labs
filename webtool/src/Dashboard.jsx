@@ -26,16 +26,19 @@ import JobDetailPage from './components/JobDetailPage';
 import OptionsPage from './components/OptionsPage';
 import CLIOptionPage from './components/CLIOptionPage';
 import S3ClientOptionPage from './components/S3ClientOptionPage';
+import HelpPage from './components/HelpPage';
+import UninstallPage from './components/UninstallPage';
+import LogoutPage from './components/LogoutPage';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
+      2008-{new Date().getFullYear()}
+      {'. '}
       <Link color="inherit" href="https://aws.amazon.com/">
-        Data Validator Tool
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+        Amazon Web Services, Inc.
+      </Link>{' '}or its affiliates. All rights reserved.
     </Typography>
   );
 }
@@ -131,6 +134,8 @@ export default function Dashboard() {
     setOpen(false);
   };
 
+  document.title = "BYOD - Data Validator Tool";
+  
   return (
     <BrowserRouter>
       <div className={classes.root}>
@@ -146,8 +151,8 @@ export default function Dashboard() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Data Validator Tool
+            <Typography align="center" component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+              BYOD - Data Validator Tool
             </Typography>
           </Toolbar>
         </AppBar>
@@ -164,14 +169,14 @@ export default function Dashboard() {
             </IconButton>
           </div>
           <Divider />
-          <List>{mainListItems}</List>
+          <List key="mainList">{mainListItems}</List>
           <Divider />
-          <List>{secondaryListItems}</List>
+          <List key="secondaryList">{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignContent="center" alignItems="center">
               <Paper className={classes.paper}>
                 <Switch>
                   <Route exact path="/" component={SplashPage} />
@@ -180,7 +185,9 @@ export default function Dashboard() {
                   <Route exact path="/upload" component={OptionsPage} />
                   <Route exact path="/upload/cli" component={CLIOptionPage} />
                   <Route exact path="/upload/client" component={S3ClientOptionPage} />
-                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/help" component={HelpPage} />
+                  <Route exact path="/uninstall" component={UninstallPage} />
+                  <Route exact path="/logout" component={LogoutPage} />
                 </Switch>
               </Paper>
             </Grid>

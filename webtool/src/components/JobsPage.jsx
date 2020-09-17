@@ -54,15 +54,14 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'id', numeric: false, disablePadding: true, label: 'ID' },
   { id: 'filename', numeric: false, disablePadding: false, label: 'Filename'},
-  { id: 'version', numeric: true, disablePadding: false, label: 'Version'},
-  { id: 'status', numeric: true, disablePadding: false, label: 'Status'},
-  { id: 'staged', numeric: true, disablePadding: false, label: 'Staged'},
-  { id: 'start_ts', numeric: true, disablePadding: false, label: 'Start Date'},
-  { id: 'end_ts', numeric: true, disablePadding: false, label: 'End Date'},
+  { id: 'version', numeric: false, disablePadding: false, label: 'Version'},
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+  { id: 'staged', numeric: false, disablePadding: false, label: 'Staged'},
   { id: 'warnings', numeric: true, disablePadding: false, label: 'Warnings'},
   { id: 'errors', numeric: true, disablePadding: false, label: 'Errors'},
+  { id: 'start_ts', numeric: false, disablePadding: false, label: 'Start Date'},
+  { id: 'end_ts', numeric: false, disablePadding: false, label: 'End Date'},
 ];
 
 function EnhancedTableHead(props) {
@@ -219,6 +218,12 @@ export default function JobsPage() {
   async function fetchJobs() {
     try {
       const jobsData = await API.graphql(graphqlOperation(listJobs));
+      jobsData.data.listJobss.items.forEach(item => {
+        let sdate = new Date(item.start_ts);
+        let edate = new Date(item.end_ts);
+        item.start_ts = sdate.toLocaleString();
+        item.end_ts = edate.toLocaleString();
+      });
       const jobsList = jobsData.data.listJobss.items;
       setRows(jobsList);
     } catch (err) {
@@ -245,7 +250,6 @@ export default function JobsPage() {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
-    console.log("ALVIN", selected, name);
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -299,17 +303,17 @@ export default function JobsPage() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -318,17 +322,17 @@ export default function JobsPage() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link to={`/jobs/${row.id}`}>{row.id}</Link>
+                      <TableCell align="left">
+                        <Link to={`/jobs/${row.id}`}>{row.filename}</Link>
                       </TableCell>
-                      <TableCell align="right">{row.filename}</TableCell>
-                      <TableCell align="right">{row.filename_version}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
-                      <TableCell align="right">{row.staged}</TableCell>
-                      <TableCell align="right">{row.start_ts}</TableCell>
-                      <TableCell align="right">{row.end_ts}</TableCell>
-                      <TableCell align="right">{row.warnings}</TableCell>
-                      <TableCell align="right">{row.errors}</TableCell>
+                      <TableCell align="left">{row.filename_version}</TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left">{row.staged}</TableCell>
+                      <TableCell align="left">{row.warnings}</TableCell>
+                      <TableCell align="left">{row.errors}</TableCell>
+                      <TableCell align="left">{row.start_ts}</TableCell>
+                      <TableCell align="left">{row.end_ts}</TableCell>
+                      
                     </TableRow>
                   );
                 })}

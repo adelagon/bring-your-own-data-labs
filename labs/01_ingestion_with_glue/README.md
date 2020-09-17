@@ -20,12 +20,11 @@ In this Lab we will create a schema from your data optimized for analytics and p
 ## Before you begin
 
 Please make sure now you select the region where your data resides.
-All resources to be created **must** be in the same region.
+All resources to be created **must** be in the same AWS region.
 
 ## Preparing your environment
 
 The encoding of your raw files should be UTF-8. You should export your files from your source with UTF-8 encoding. For this workshop, you may convert the encoding before uploading files to S3 bucket with text editing tools, such as Sublime Text
-
 or by using this Linux command:
 
 ```
@@ -50,6 +49,8 @@ separate folder with the table name. An example would be as follows:
 /raw/TABLE-NAME-2/LOAD00000002.csv
 ...
 ```
+
+You can validate that your datafiles are in the proper format and location using the [Data Validation Tool](../90_data_validation_tool/README.md)
 
 In this lab we will:
 
@@ -270,5 +271,10 @@ NOTE: If you have any "id" column as integer, please make sure type is set to "d
 
 
 Now go to lab 2 : [Orchestration](../02_orchestration/README.md)
+
+---
+## License
+
+This library is licensed under the Apache 2.0 License. 
 
 

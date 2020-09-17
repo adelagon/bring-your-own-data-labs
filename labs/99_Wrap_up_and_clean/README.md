@@ -43,3 +43,7 @@ Make sure you haven't put any recurrence on jobs and triggers:
 
 If you want to cancel your subscription to Quicksight you can follow these procedure: (https://docs.aws.amazon.com/quicksight/latest/user/closing-account.html)
 
+---
+## License
+
+This library is licensed under the Apache 2.0 License. 

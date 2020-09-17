@@ -54,15 +54,14 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'id', numeric: false, disablePadding: true, label: 'ID' },
   { id: 'filename', numeric: false, disablePadding: false, label: 'Filename'},
-  { id: 'version', numeric: true, disablePadding: false, label: 'Version'},
-  { id: 'status', numeric: true, disablePadding: false, label: 'Status'},
-  { id: 'staged', numeric: true, disablePadding: false, label: 'Staged'},
-  { id: 'start_ts', numeric: true, disablePadding: false, label: 'Start Date'},
-  { id: 'end_ts', numeric: true, disablePadding: false, label: 'End Date'},
+  { id: 'version', numeric: false, disablePadding: false, label: 'Version'},
+  { id: 'status', numeric: false, disablePadding: false, label: 'Status'},
+  { id: 'staged', numeric: false, disablePadding: false, label: 'Staged'},
   { id: 'warnings', numeric: true, disablePadding: false, label: 'Warnings'},
   { id: 'errors', numeric: true, disablePadding: false, label: 'Errors'},
+  { id: 'start_ts', numeric: false, disablePadding: false, label: 'Start Date'},
+  { id: 'end_ts', numeric: false, disablePadding: false, label: 'End Date'},
 ];
 
 function EnhancedTableHead(props) {
@@ -317,17 +316,17 @@ export default function JobsPage() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link to={`/jobs/${row.id}`}>{row.id}</Link>
+                      <TableCell align="left">
+                        <Link to={`/jobs/${row.id}`}>{row.filename}</Link>
                       </TableCell>
-                      <TableCell align="right">{row.filename}</TableCell>
-                      <TableCell align="right">{row.filename_version}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
-                      <TableCell align="right">{row.staged}</TableCell>
-                      <TableCell align="right">{row.start_ts}</TableCell>
-                      <TableCell align="right">{row.end_ts}</TableCell>
-                      <TableCell align="right">{row.warnings}</TableCell>
-                      <TableCell align="right">{row.errors}</TableCell>
+                      <TableCell align="left">{row.filename_version}</TableCell>
+                      <TableCell align="left">{row.status}</TableCell>
+                      <TableCell align="left">{row.staged}</TableCell>
+                      <TableCell align="left">{row.warnings}</TableCell>
+                      <TableCell align="left">{row.errors}</TableCell>
+                      <TableCell align="left">{row.start_ts}</TableCell>
+                      <TableCell align="left">{row.end_ts}</TableCell>
+                      
                     </TableRow>
                   );
                 })}

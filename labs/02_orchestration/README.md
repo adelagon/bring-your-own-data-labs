@@ -13,7 +13,7 @@ In this lab we will continue to work with [Glue](https://aws.amazon.com/glue/) a
 > **Note**: This Lab depends on the steps executed in the [Ingestion with Glue](../01_ingestion_with_glue/README.md) LAB;
 In case you didn't finish that one yet, now is the time :)
 
-> **Info**: Glue is a fully managed extract, transform, and load (ETL) AWS service that makes it easy for customers to prepare and load their data for analytics. Glue allows you to create crawlers that will generate a schema for each of your csv file. Glue also allows you to create Job to do complex process for your datasets such as conversion to another data type.
+> &#128161; **Info**: Glue is a fully managed extract, transform, and load (ETL) AWS service that makes it easy for customers to prepare and load their data for analytics. Glue allows you to create crawlers that will generate a schema for each of your csv file. Glue also allows you to create Job to do complex process for your datasets such as conversion to another data type.
 
 At this stage, we have Glue crawlers and a Glue Job configured convert our raw datasets into Parquet and generate Glue tables for both raw and generated data. We should be able to observe 2 main folders in our data-lake bucket (raw and curated).
 
@@ -23,9 +23,9 @@ At this stage, we have Glue crawlers and a Glue Job configured convert our raw d
 
 When you only have a Glue job or a single Crawler that needs to be run periodically, you can schedule it with Glue scheduler or maybe you can use [CloudWatch](https://aws.amazon.com/cloudwatch/) events with a [Lambda](https://aws.amazon.com/lambda/) function. But if you need more complex flows - for example chaining multiple jobs and crawlers, running different jobs in parallel - Glue provides a workflow mechanism.
 
-> **Info**: CloudWatch is a monitoring and management AWS service that provides data and actionable insights for AWS, hybrid, and on-premises applications and infrastructure resources. With CloudWatch, you can collect and access all your performance and operational data in form of logs and metrics from a single platform.
+> &#128161; **Info**: CloudWatch is a monitoring and management AWS service that provides data and actionable insights for AWS, hybrid, and on-premises applications and infrastructure resources. With CloudWatch, you can collect and access all your performance and operational data in form of logs and metrics from a single platform.
 
-> **Info**: Lambda is an event-driven, serverless computing AWS service that runs code in response to events and automatically manages the computing resources required by that code. 
+> &#128161; **Info**: Lambda is an event-driven, serverless computing AWS service that runs code in response to events and automatically manages the computing resources required by that code. 
 
 The example presented here assumes a linear/ dependent approach - some jobs will run before running the others. The goal is to create a pipeline which will refresh the data-set every once in a while. One  example of a dependent job is a job that extracts data from other source and ingest it into your data lake before kicking off another transformation jobs.
 

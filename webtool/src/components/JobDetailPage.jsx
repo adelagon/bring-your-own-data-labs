@@ -24,6 +24,7 @@ import { file } from '@babel/types';
 import Auth from'@aws-amplify/auth';
 import AWS from 'aws-sdk';
 import Lambda from 'aws-sdk/clients/lambda';
+import SQS from 'aws-sdk/clients/sqs';
 
 Amplify.configure(awsExports);
 AWS.config.update({region: awsSDKExports.region});
@@ -40,16 +41,25 @@ export default function JobDetailPage(props) {
     const classes = useStyles();
     
     const handleClickOpen = () => {
-        setOpen(true);
+      setOpen(true);
+    };
+
+    const handleClickPOpen = () => {
+      setPOpen(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+      setOpen(false);
+    };
+
+    const handlePClose = () => {
+      setPOpen(false);
     };
 
     const [field, setFields] = useState([]);
 
     const [open, setOpen] = React.useState(false);
+    const [popen, setPOpen] = React.useState(false);
 
     useEffect(() => {
         fetchField()
@@ -65,6 +75,7 @@ export default function JobDetailPage(props) {
             console.log("[ERROR] Fetching data: ", err)
         }
     }
+    
     async function updateData(status) {
         try {
             const updateStage = {
@@ -78,7 +89,47 @@ export default function JobDetailPage(props) {
         }
     }
 
-    async function stageData(fn, fnv){
+    async function profileData(id, fn, fnv) {
+      Auth.currentCredentials()
+        .then(credentials => {
+          const sqs = new SQS({
+            credentials: Auth.essentialCredentials(credentials)
+          });
+          var params = {
+            MessageAttributes: {
+              "key": {
+                DataType: "String",
+                StringValue: fn
+              },
+              "version": {
+                DataType: "String",
+                StringValue: fnv
+              },
+              "bucket": {
+                DataType: "String",
+                StringValue: awsSDKExports.source_s3_bucket
+              },
+              "jobid": {
+                DataType: "String",
+                StringValue: id
+              }
+            },
+            MessageBody: fn + "?versionId=" + fnv,
+            QueueUrl: awsSDKExports.sqs_profile_url
+          };
+          sqs.sendMessage(params, function(err, data) {
+            if (err) {
+              console.log("[ERROR]", err);
+              handlePClose();
+            } else {
+              console.log("[SUCCESS]", data.MessageId);
+              handlePClose();
+            }
+          });
+        })
+    }
+
+    async function stageData(fn, fnv) {
       Auth.currentCredentials()
         .then(credentials => {
           const lambda = new Lambda({
@@ -111,8 +162,8 @@ export default function JobDetailPage(props) {
       <div>
         <Typography variant="h6" id="tableTitle" component="div">Validation Job Status</Typography>
           <List>
-            <ListItem><b>Validation Job ID:</b>{field.id}</ListItem>
-            <ListItem><b>Validation Job Start Date:</b>{field.start_ts}</ListItem>
+            <ListItem><b>Validation Job ID: </b>{field.id}</ListItem>
+            <ListItem><b>Validation Job Start Date: </b>{field.start_ts}</ListItem>
             <ListItem><b>Validation Job End Date: </b>{field.end_ts}</ListItem>
             <ListItem><b>File Name: </b> {field.filename}</ListItem>
             <ListItem><b>File Version: </b> {field.filename_version}</ListItem>
@@ -123,10 +174,11 @@ export default function JobDetailPage(props) {
             <ListItem><b>Result: </b> {field.result_uri}</ListItem>
           </List>
           <div className={classes.root}>
-            <Button variant="contained" color="primary">Share Result</Button>
-            <Button variant="contained" color="primary">View Profile</Button>
             <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button>
+            <Button variant="contained" color="primary" onClick={handleClickPOpen}>Profile Data</Button>
+            <Button variant="contained" color="primary" disabled>Share Results</Button>
           </div>
+          {/* Stage Data Dialog */}
           <Dialog
             open={open}
             onClose={handleClose}
@@ -134,23 +186,50 @@ export default function JobDetailPage(props) {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">{"Are you sure you want to proceed with Staging the Data?"}</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Disagree
-                </Button>
-                <Button onClick={() => {
-                    updateData("pending");
-                    stageData(field.filename, field.filename_version);
-                    }} color="primary" autoFocus>
-                    Agree
-                </Button>
-              </DialogActions>
-            </Dialog>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Once you agree, your data will be staged into a Staging Bucket created by this Data Validation Tool.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={() => {
+                  updateData("pending");
+                  stageData(field.filename, field.filename_version);
+                  }} color="primary" autoFocus variant="contained">
+                  Yes
+              </Button>
+              <Button onClick={handleClose} color="secondary" variant="contained">
+                  No
+              </Button>
+              
+            </DialogActions>
+          </Dialog>
+          {/* Profile Data Dialog */}
+          <Dialog
+            open={popen}
+            onClose={handlePClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Run Profiling Job?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                <p>Profiling gives you and the workshop personnel better insights about your data in order to understand the necessary transformations and analytics during the workshop.</p>
+                <p>Running a Profiling job might take some time, you can check back to this page every now and then to check the profiling status.</p>
+                <p>Do you want to run a Profiling job now?</p>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={() => {
+                  profileData(field.id, field.filename, field.filename_version);
+                  }} color="primary" autoFocus variant="contained">
+                  Yes
+              </Button>
+              <Button onClick={handlePClose} color="primary" variant="contained">
+                  No
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
     )
 }

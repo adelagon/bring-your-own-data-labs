@@ -169,8 +169,9 @@ export default function JobDetailPage(props) {
           });
           let u = new URL(field.profile_uri);
           let key = u.pathname.substring(1);
+          let bucket = u.host.split('.')[0];
           var params = {
-            Bucket: awsSDKExports.target_s3_bucket,
+            Bucket: bucket,
             Key: key,
             Expires: awsSDKExports.presigned_url_expires
           };
@@ -188,8 +189,9 @@ export default function JobDetailPage(props) {
           });
           let u = new URL(field.result_uri);
           let key = u.pathname.substring(1);
+          let bucket = u.host.split('.')[0];
           var params = {
-            Bucket: awsSDKExports.target_s3_bucket,
+            Bucket: bucket,
             Key: key,
             Expires: awsSDKExports.presigned_url_expires
           };

@@ -243,7 +243,10 @@ export default function JobDetailPage(props) {
                 </TableRow>
                 <TableRow>
                   <TableCell align="left"><b>End Date</b></TableCell>
-                  <TableCell align="left">{field.end_ts}</TableCell>
+                  <TableCell align="left">
+                    {field.status === "pending" ? 
+                      <span></span> : `${field.end_ts}`}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="left"><b>Validation Report</b></TableCell>

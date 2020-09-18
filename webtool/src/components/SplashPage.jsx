@@ -9,15 +9,15 @@ export default function SplashPage() {
     return (
         <div>
             <Typography variant="h6" id="tableTitle" component="div">Welcome to BYOD Validation Tool</Typography>
-                <span>This tool will help you validate the corectness of your "Bring Your Own Data" for the workshop by doing the following checks
+                <span>This tool will help you validate the correctness of your "Bring Your Own Data" for the workshop by doing the following checks
                 <ul>
-                    <li key="1">Data size up to 3GB max</li>
-                    <li key="2">Check file type if CSV</li>
-                    <li key="3">Detect if there are any nested fields</li>
-                    <li key="4">Check headers</li>
-                    <li key="5">Potentially look for any PII data</li>
+                    <li key="1">File size within 3GB</li>
+                    <li key="2">File is in UTF-8 encoding format</li>
+                    <li key="3">File has a header</li>
+                    <li key="4">Header has valid column names</li>
                 </ul>
                 </span>
+                <span>This tool can also provide additional insights by giving you an option to run a *Data Profiling* job.</span>
                 <span>
                     Undergoing Data Validation will also help you and your workshop conductors gain a better understanding of the types of data you have for a better workshop experience.
                 </span>

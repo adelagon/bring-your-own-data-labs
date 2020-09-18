@@ -2,29 +2,34 @@
 
 # Lab 01 - Ingestion with Glue
 
-- [Lab 01 - Ingestion with Glue](#lab-01---ingestion-with-glue)
-  - [Before you begin](#before-you-begin)
-  - [Preparing your environment](#preparing-your-environment)
-    - [Configure Permissions](#configure-permissions)
-      - [Creating a Policy for Amazon S3 Bucket (Console)](#creating-a-policy-for-amazon-s3-bucket-console)
-      - [Creating a Role for AWS Service Glue (Console)](#creating-a-role-for-aws-service-glue-console)
-  - [Creating a Development Endpoint and Notebook - Step 1](#creating-a-development-endpoint-and-notebook---step-1)
-  - [Create data catalog from S3 files](#create-data-catalog-from-s3-files)
-  - [Transform the data to Parquet format](#transform-the-data-to-parquet-format)
-  - [Add a crawler for curated data](#add-a-crawler-for-curated-data)
-  - [Schema Validation](#schema-validation)
-  - [Creating a Development Endpoint and Notebook - Step 2](#creating-a-development-endpoint-and-notebook---step-2)
+- [Before you begin](#before-you-begin)
+- [Preparing your environment](#preparing-your-environment)
+  - [Configure Permissions](#configure-permissions)
+    - [Creating a Policy for Amazon S3 Bucket (Console)](#creating-a-policy-for-amazon-s3-bucket-console)
+    - [Creating a Role for AWS Service Glue (Console)](#creating-a-role-for-aws-service-glue-console)
+- [Creating a Development Endpoint and Notebook - Step 1](#creating-a-development-endpoint-and-notebook---step-1)
+- [Create data catalog from S3 files](#create-data-catalog-from-s3-files)
+- [Transform the data to Parquet format](#transform-the-data-to-parquet-format)
+- [Add a crawler for curated data](#add-a-crawler-for-curated-data)
+- [Schema Validation](#schema-validation)
+- [Creating a Development Endpoint and Notebook - Step 2](#creating-a-development-endpoint-and-notebook---step-2)
+- [License](#License)
 
-In this Lab we will create a schema from your data optimized for analytics and place the result in an S3 bucket-based data lake.
+-----
+
+In this Lab we will create a schema from your data optimized for analytics and place the result in an S3 bucket-based data lake. We will also:
+
+1. Create IAM roles needed for the rest of the labs.
+2. Transform the files into Apache Parquet format (https://parquet.apache.org/) using AWS Glue jobs.
 
 ## Before you begin
 
-Please make sure now you select the region where your data resides.
-All resources to be created **must** be in the same AWS region.
+> &#9888; Please make sure now you select the region where your data resides.
+> All resources to be created **must** be in the same AWS region.
 
 ## Preparing your environment
 
-The encoding of your raw files should be UTF-8. You should export your files from your source with UTF-8 encoding. For this workshop, you may convert the encoding before uploading files to S3 bucket with text editing tools, such as Sublime Text
+The encoding of your raw files should be UTF-8. You should export your files from your source with UTF-8 encoding. For this workshop, you may convert the encoding before uploading files to an S3 bucket with text editing tools, such as Sublime Text
 or by using this Linux command:
 
 ```
@@ -52,10 +57,28 @@ separate folder with the table name. An example would be as follows:
 
 You can validate that your datafiles are in the proper format and location using the [Data Validation Tool](../90_data_validation_tool/README.md)
 
-In this lab we will:
 
-1. Create IAM roles needed for the rest of the labs.
-2. Transform the files into Apache Parquet format (https://parquet.apache.org/) using Glue jobs.
+## Upoloading your data
+
+&#9888; If you haven't already uploaded your data into an S3 bucket, you will need to create your S3 bucket and upload your data before you can proceed with the rest of the workshop. If you already have prepared and uploaded your data, you can skip to [Configure Permissions](#configure-permissions).
+
+You will need to create an S3 bucket to upload your data that you have prepared to use in this workshop.
+
+To create an S3 Bucket:
+1. Sign into the S3 console at https://s3.console.aws.amazon.com/s3/ with your user that has the appropriate IAM permissions
+2. Remember to remain in the region where you will be running the workshop
+3. Click **+Create bucket** to create a new bucket where you will upload your dataset
+![Create an S3 Bucket](./img/ingestion/S3Createbucket1.png)
+4. Enter the name you want to use for the bucket. The name has to meet certain requirements and must be globally unique. Verify you are in the proper region where you are using this workshop and then click **Next**.
+![Create an S3 Bucket](./img/ingestion/S3Createbucket2.png)
+5. Click **Next** 
+6. Click **Next**
+7. Verify the information for the creation of the bucket, then click **Create bucket**
+![Create an S3 Bucket](./img/ingestion/S3Createbucket5.png)
+
+----
+
+
 
 ### Configure Permissions
 
@@ -65,7 +88,7 @@ In this lab we will:
 2. In the navigation pane, choose Policies.
 3. In the content pane, choose Create policy.
 4. Choose JSON from the tabs.
-5. Paste the following string in the text area. DO NOT FORGET TO PUT YOUR BUCKET NAME INSTEAD OF "YOUR-BUCKET-NAME"
+5. Paste the following string in the text area. Replace **YOUR-BUCKET-NAME** with the name of the bucket that you are using or have created for this workshop.
 
 ```json
 {
@@ -90,7 +113,7 @@ In this lab we will:
 ```
 
 6. When you are finished, choose Review policy
-7. Enter the name of policy as “BYOD-S3Policy”
+7. Enter the name of policy as **BYOD-S3Policy**
 
 #### Creating a Role for AWS Service Glue (Console)
 
@@ -111,7 +134,7 @@ NOTE: “AWSGlueServiceRole” is an AWS Managed Policy to provide Glue with nee
 
 ## Creating a Development Endpoint and Notebook - Step 1
 
-> Development endpoint and notebook will be used in Lab 5 of this workshop. Since it takes a bit of time to create the resources, we are doing it now so that they will be ready when we need them.
+> &#128161; Development endpoint and notebook will be used in Lab 5 of this workshop. Since it takes a bit of time to create the resources, we are doing it now so that they will be ready when we need them.
 
 In AWS Glue, you can create an environment — known as a development endpoint — that you can use to iteratively develop and test your extract, transform, and load (ETL) scripts.
 

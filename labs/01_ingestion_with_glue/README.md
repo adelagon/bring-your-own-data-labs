@@ -4,6 +4,7 @@
 
 - [Before you begin](#before-you-begin)
 - [Preparing your environment](#preparing-your-environment)
+  - [Uploading your data](#Uploading-your-data)
   - [Configure Permissions](#configure-permissions)
     - [Creating a Policy for Amazon S3 Bucket (Console)](#creating-a-policy-for-amazon-s3-bucket-console)
     - [Creating a Role for AWS Service Glue (Console)](#creating-a-role-for-aws-service-glue-console)
@@ -58,9 +59,9 @@ separate folder with the table name. An example would be as follows:
 You can validate that your datafiles are in the proper format and location using the [Data Validation Tool](../90_data_validation_tool/README.md)
 
 
-## Upoloading your data
+## Uploading your data
 
-&#9888; If you haven't already uploaded your data into an S3 bucket, you will need to create your S3 bucket and upload your data before you can proceed with the rest of the workshop. If you already have prepared and uploaded your data, you can skip to [Configure Permissions](#configure-permissions).
+> &#9888; If you haven't already uploaded your data into an S3 bucket, you will need to create your S3 bucket and upload your data before you can proceed with the rest of the workshop. If you already have prepared and uploaded your data, you can skip to [Configure Permissions](#configure-permissions).
 
 You will need to create an S3 bucket to upload your data that you have prepared to use in this workshop.
 
@@ -77,7 +78,6 @@ To create an S3 Bucket:
 ![Create an S3 Bucket](./img/ingestion/S3Createbucket5.png)
 
 ----
-
 
 
 ### Configure Permissions

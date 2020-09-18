@@ -262,8 +262,12 @@ export default function JobDetailPage(props) {
           </TableContainer>
 
           <div className={classes.root}>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button>
-            <Button variant="contained" color="primary" onClick={handleClickPOpen}>Run Data Profiling Job</Button>
+            {field.status === "pending" || field.status == "failed" ?
+              <Button variant="contained" color="primary" disabled onClick={handleClickOpen}>Stage Data for Workshop</Button>
+    : <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button> }
+            {field.status === "pending" || field.status == "failed" ?
+              <Button variant="contained" color="primary" disabled onClick={handleClickPOpen}>Run Data Profiling Job</Button>
+    : <Button variant="contained" color="primary" onClick={handleClickPOpen}>Run Data Profiling Job</Button> }
             <Button variant="contained" color="primary" disabled>Share Results</Button>
           </div>
           {/* Stage Data Dialog */}

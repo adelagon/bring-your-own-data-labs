@@ -45,6 +45,8 @@ Once we are done in this lab, it should look something like this:
 
 ![complete workflow](./img/orchestration/workflow_complete3.png)
 
+> **Note**: The screenshots here are using a mock sales data. The names used here might be different with the names you used for your Glue Crawlers, Glue Jobs, and S3 buckets. 
+
 Let's get started
 
 1. Go to the Glue Dashboard in AWS Console

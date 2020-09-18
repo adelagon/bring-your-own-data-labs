@@ -450,6 +450,8 @@ A `CREATE TABLE AS SELECT` (CTAS) query creates a new table in Athena from the r
 
 This is useful in joins because it creates tables from join query results in one step, without repeatedly querying raw data sets. In this section we walk through how create a table from join query (or any query) results and store it in S3.
 
+> &#128161; CTAS statements help reduce cost and improve performance by allowing users to run queries on smaller tables constructed from larger tables.
+
   
 
 1. Open the [AWS Management Console for Athena](https://console.aws.amazon.com/athena/home) and make sure you are on the same AWS Region.

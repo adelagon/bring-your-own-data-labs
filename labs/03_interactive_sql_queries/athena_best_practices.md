@@ -80,7 +80,7 @@ An additional optimisation supported by Athena is *bucketing*. Partitioning is u
 
 Bucketing your data, is another common technique that improves Athena performance and cost. For more information, see [Bucketing vs Partitioning](https://docs.aws.amazon.com/athena/latest/ug/bucketing-vs-partitioning.html). 
 
-You can use ```CREATE TABLE AS SELECY```(CTAS) query to bucket the data within a partition. This lab, we will cover, how to use CTAS to physically create a subset table. *Two* identical subset tables will be created; the first one is *partitioned* and the second one is *bucketed* and *partitioned*. Finally, we will run the same query on both subset tables and compare the results.
+You can use ```CREATE TABLE AS SELECT``` (CTAS) query to bucket the data within a partition. This lab, we will cover, how to use CTAS to physically create a subset table. *Two* identical subset tables will be created; the first one is *partitioned* and the second one is *bucketed* and *partitioned*. Finally, we will run the same query on both subset tables and compare the results.
 
 > Note: This lab will run on the Curated Table
 

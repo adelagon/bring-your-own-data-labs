@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 export default function SplashPage() {
     return (
         <div>
-            <Typography variant="h6" id="tableTitle" component="div">Welcome to BYOD Validation Tool</Typography>
+            <Typography variant="h6" id="tableTitle" component="div">Welcome to the BYOD Validation Tool</Typography>
                 <span>This tool will help you validate the correctness of your "Bring Your Own Data" for the workshop by doing the following checks
                 <ul>
                     <li key="1">File size within 3GB</li>
@@ -18,6 +18,8 @@ export default function SplashPage() {
                 </ul>
                 </span>
                 <span>This tool can also provide additional insights by giving you an option to run a *Data Profiling* job.</span>
+                <br/>
+                <br/>
                 <span>
                     Undergoing Data Validation will also help you and your workshop conductors gain a better understanding of the types of data you have for a better workshop experience.
                 </span>

@@ -32,10 +32,10 @@ echo 'Building frontend...'
 npm run-script build
 
 echo 'Deploying frontend...'
-cd webtool/src/
 webtool_bucket=$(aws cloudformation describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='WebToolS3Bucket'].OutputValue" --output=text)
 echo $webtool_bucket
 aws s3 sync ../build/ s3://$webtool_bucket
 
+webtool_url=$(aws cloudformation describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='WebToolUrl'].OutputValue" --output=text)
 echo 'You may now open the webtool at:'
-aws cloudformation describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='WebToolUrl'].OutputValue" --output=text
+echo $webtool_url

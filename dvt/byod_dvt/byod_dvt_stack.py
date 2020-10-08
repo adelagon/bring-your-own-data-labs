@@ -43,7 +43,7 @@ class ByodDvtStack(core.Stack):
             self,
             "WebToolBucket",
             website_index_document="index.html",
-            #public_read_access=True,
+            public_read_access=True,
         )
 
         core.CfnOutput(self, "SourceS3Bucket", value=source_csv_bucket.bucket_name)

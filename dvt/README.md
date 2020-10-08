@@ -48,4 +48,5 @@ command.
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
 
-Enjoy!
+To Deploy, you may use `deploy.sh`. This will deploy the infra including the webtool in just one command.
+

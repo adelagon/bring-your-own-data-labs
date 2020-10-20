@@ -12,7 +12,7 @@ export default function OptionsPage() {
         <div>
         <Container>
             <Typography variant="h6" id="tableTitle" component="div" align="center">Upload Options</Typography>
-            <p>We have automatically created your S3 Bucket named: { awsSDKExports.source_s3_bucket } in ap-southeast-1</p>
+            <p>We have automatically created your S3 Bucket named: <b>{ awsSDKExports.source_s3_bucket }</b> in ap-southeast-1</p>
             <p>We also have created an IAM user named: ___________ that you may use for uploading data into your bucket</p>
             <p>You have the following options to upload your data into this bucket. Please click the following options that you want to explore: </p>
             <Box mx="auto" my={1}>

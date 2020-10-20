@@ -179,6 +179,16 @@ class ByodDvtStack(core.Stack):
         )
         api_ds = api.add_dynamo_db_data_source(
             "ValidationJobDataSource", validation_job_table)
+
+        from aws_cdk.aws_appsync import MappingTemplate
+
+        api_ds.create_resolver(
+            type_name="Query",
+            field_name="listJobss",
+            request_mapping_template=MappingTemplate.dynamodb_scan_table(),
+            response_mapping_template=MappingTemplate.dynamo_db_result_list()
+        )
+
         core.CfnOutput(self, "GraphQLEndpoint", value=api.graphql_url)
 
         ### SQS ###

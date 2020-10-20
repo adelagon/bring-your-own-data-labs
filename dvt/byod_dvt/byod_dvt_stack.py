@@ -189,6 +189,13 @@ class ByodDvtStack(core.Stack):
             response_mapping_template=MappingTemplate.dynamo_db_result_list()
         )
 
+        api_ds.create_resolver(
+            type_name="Query",
+            field_name="getJobs",
+            request_mapping_template=MappingTemplate.dynamo_db_get_item("id", "id"),
+            response_mapping_template=MappingTemplate.dynamo_db_result_item()
+        )
+
         core.CfnOutput(self, "GraphQLEndpoint", value=api.graphql_url)
 
         ### SQS ###

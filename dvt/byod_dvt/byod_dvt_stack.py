@@ -150,7 +150,9 @@ class ByodDvtStack(core.Stack):
             actions=[
                 "lambda:invokeFunction"
             ],
-            resource=stager_function.function_arn
+            resources=[
+                stager_function.function_arn
+            ]
         ))
 
         auth_role.add_to_policy(PolicyStatement(
@@ -158,7 +160,9 @@ class ByodDvtStack(core.Stack):
             actions=[
                 "sqs:*"
             ],
-            resource=profiling_job_queue.queue_arn
+            resources=[
+                profiling_job_queue.queue_arn
+            ]
         ))
 
         unauth_role = _iam.Role(

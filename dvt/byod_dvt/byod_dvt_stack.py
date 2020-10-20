@@ -185,15 +185,15 @@ class ByodDvtStack(core.Stack):
         api_ds.create_resolver(
             type_name="Query",
             field_name="listJobss",
-            request_mapping_template=MappingTemplate.dynamo_db_scan_table(),
-            response_mapping_template=MappingTemplate.dynamo_db_result_list()
+            request_mapping_template=MappingTemplate.from_file(os.path.join(dirname, "api", "resolvers", "Query.listJobss.req.vtl")),
+            response_mapping_template=MappingTemplate.from_file(os.path.join(dirname, "api", "resolvers", "Query.listJobss.res.vtl"))
         )
 
         api_ds.create_resolver(
             type_name="Query",
             field_name="getJobs",
-            request_mapping_template=MappingTemplate.dynamo_db_get_item("id", "id"),
-            response_mapping_template=MappingTemplate.dynamo_db_result_item()
+            request_mapping_template=MappingTemplate.from_file(os.path.join(dirname, "api", "resolvers", "Query.getJobs.req.vtl")),
+            response_mapping_template=MappingTemplate.from_file(os.path.join(dirname, "api", "resolvers", "Query.getJobs.res.vtl"))
         )
 
         core.CfnOutput(self, "GraphQLEndpoint", value=api.graphql_url)

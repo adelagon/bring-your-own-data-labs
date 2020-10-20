@@ -146,7 +146,7 @@ class ByodDvtStack(core.Stack):
         ))
 
         auth_role.add_to_policy(PolicyStatement(
-            effect=Effect.ALLLOW,
+            effect=Effect.ALLOW,
             actions=[
                 "lambda:invokeFunction"
             ],

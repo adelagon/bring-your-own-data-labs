@@ -51,6 +51,32 @@ class ByodDvtStack(core.Stack):
         core.CfnOutput(self, "WebToolS3Bucket", value=webtool_bucket.bucket_name)
         core.CfnOutput(self, "WebToolUrl", value=webtool_bucket.bucket_website_url)
 
+        ### Stager Function ###
+        stager_function = _lambda.Function(
+            self,
+            "StagerFunction",
+            runtime=_lambda.Runtime.NODEJS_12_X,
+            code=_lambda.Code.from_asset(
+                os.path.join(dirname, "lambda", "stager")),
+            handler='index.handler'
+        )
+
+        stager_function.add_environment("REGION", self.region)
+        stager_function.add_environment(
+            "SOURCE_BUCKET", source_csv_bucket.bucket_name)
+        stager_function.add_environment(
+            "STAGE_BUCKET", target_csv_bucket.bucket_name)
+        source_csv_bucket.grant_read(stager_function)
+        target_csv_bucket.grant_put(stager_function)
+        core.CfnOutput(self, "StagerLambdaFunction", value=stager_function.function_name)
+
+        ### Profiling Queue
+        profiling_job_queue = _sqs.Queue(
+            self,
+            "ProfilingJobQueue"
+        )
+        core.CfnOutput(self, "SQSProfileQueue", value=profiling_job_queue.queue_url)
+
         ### Cognito ###
 
         userpool = _cognito.UserPool(
@@ -111,12 +137,30 @@ class ByodDvtStack(core.Stack):
         auth_role.add_to_policy(PolicyStatement(
             effect=Effect.ALLOW,
             actions=[
-                "s3:GetObject"
+                "s3:GetObject",
+                "s3:PutObject"
             ],
             resources=[
                 "%s/*" % target_csv_bucket.bucket_arn
             ]
         ))
+
+        auth_role.add_to_policy(PolicyStatement(
+            effect=Effect.ALLLOW,
+            actions=[
+                "lambda:invokeFunction"
+            ],
+            resource=stager_function.function_arn
+        ))
+
+        auth_role.add_to_policy(PolicyStatement(
+            effect=Effect.ALLOW,
+            actions=[
+                "sqs:*"
+            ],
+            resource=profiling_job_queue.queue_arn
+        ))
+
         unauth_role = _iam.Role(
             self,
             "CognitoUnauthRole",
@@ -205,12 +249,6 @@ class ByodDvtStack(core.Stack):
             "ValidationJobQueue"
         )
 
-        profiling_job_queue = _sqs.Queue(
-            self,
-            "ProfilingJobQueue"
-        )
-        core.CfnOutput(self, "SQSProfileQueue", value=profiling_job_queue.queue_url)
-
         ### Lambda ###
         validation_trigger_function = _lambda.Function(
             self,
@@ -236,24 +274,6 @@ class ByodDvtStack(core.Stack):
         source_csv_bucket.grant_read(validation_trigger_function)
         validation_job_table.grant_read_write_data(validation_trigger_function)
         validation_job_queue.grant_send_messages(validation_trigger_function)
-
-        stager_function = _lambda.Function(
-            self,
-            "StagerFunction",
-            runtime=_lambda.Runtime.NODEJS_12_X,
-            code=_lambda.Code.from_asset(
-                os.path.join(dirname, "lambda", "stager")),
-            handler='index.handler'
-        )
-
-        stager_function.add_environment("REGION", self.region)
-        stager_function.add_environment(
-            "SOURCE_BUCKET", source_csv_bucket.bucket_name)
-        stager_function.add_environment(
-            "STAGE_BUCKET", target_csv_bucket.bucket_name)
-        source_csv_bucket.grant_read(stager_function)
-        target_csv_bucket.grant_put(stager_function)
-        core.CfnOutput(self, "StagerLambdaFunction", value=stager_function.function_name)
 
         ### ECS Fargate ###
 

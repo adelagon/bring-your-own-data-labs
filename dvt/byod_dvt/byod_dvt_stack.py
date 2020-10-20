@@ -185,7 +185,7 @@ class ByodDvtStack(core.Stack):
         api_ds.create_resolver(
             type_name="Query",
             field_name="listJobss",
-            request_mapping_template=MappingTemplate.dynamodb_scan_table(),
+            request_mapping_template=MappingTemplate.dynamo_db_scan_table(),
             response_mapping_template=MappingTemplate.dynamo_db_result_list()
         )
 

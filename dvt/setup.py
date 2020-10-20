@@ -19,13 +19,6 @@ setuptools.setup(
     packages=setuptools.find_packages(where="byod_dvt"),
 
     install_requires=[
-        "aws-cdk.core==1.63.0",
-        "aws-cdk.aws-lambda==1.63.0",
-        "aws-cdk.aws-lambda-event-sources==1.63.0",
-        "aws-cdk.aws-ec2==1.63.0",
-        "aws-cdk.aws-ecs==1.63.0",
-        "aws-cdk.aws-ecs-patterns==1.63.0",
-        "aws-cdk.aws-appsync==1.63.0"
     ],
 
     python_requires=">=3.6",

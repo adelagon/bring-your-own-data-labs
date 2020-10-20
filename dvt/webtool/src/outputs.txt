@@ -1,8 +1,0 @@
-ClientId=1gs48001oej8u399o6ginhc5st
-GraphQLEndpoint=https://dinu3sede5epbdmxzr2gqutnei.appsync-api.ap-southeast-1.amazonaws.com/graphql
-UserPoolId=ap-southeast-1_CJx3mRHqa
-IdentityPoolId=ap-southeast-1:c772501b-e061-44f5-98d4-6f9c81211698
-SourceS3Bucket=byod-dvt-byodvalidationsourcebucket7d93d27c-b6xzopvvt38a
-TargetS3Bucket=byod-dvt-byodvalidationtargetbuckete3bb3b83-c891mg06sof8
-SQSProfileQueue=https://sqs.ap-southeast-1.amazonaws.com/495697443627/byod-dvt-ProfilingJobQueueFD681299-17M899SQ1RN7D
-StagerLambdaFunction=byod-dvt-StagerFunction57DCE86B-1F1RZR6GVFYP3

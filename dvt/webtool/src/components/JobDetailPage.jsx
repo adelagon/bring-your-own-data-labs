@@ -180,6 +180,7 @@ export default function JobDetailPage(props) {
             Key: key,
             Expires: awsSDKExports.presigned_url_expires
           };
+          console.log("[PROFILE]", params);
           const profile_url = s3.getSignedUrl('getObject', params);
           console.log("[SUCCESS]", profile_url);
           window.open(profile_url, "_blank");
@@ -189,7 +190,6 @@ export default function JobDetailPage(props) {
     async function getResult() {
       Auth.currentCredentials()
         .then(credentials => {
-          console.log("ALVINATOR!!!");
           const s3 = new S3({
             credentials: Auth.essentialCredentials(credentials)
           });
@@ -201,6 +201,7 @@ export default function JobDetailPage(props) {
             Key: key,
             Expires: awsSDKExports.presigned_url_expires
           };
+          console.log("[VALIDATION]", params);
           const result_url = s3.getSignedUrl('getObject', params);
           console.log("[SUCCESS]", result_url);
           window.open(result_url, "_blank");

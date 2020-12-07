@@ -100,7 +100,7 @@ if __name__ == "__main__":
             # delete file from local directory
             os.remove(filename)
 
-            path = 'https://%s.s3-%s.amazonaws.com/validation/%s' % (
+            path = 'https://%s.s3-%s.amazonaws.com/profiling/%s' % (
                 TARGET_BUCKET_NAME, REGION, filename)
 
             # updateDynamoDB with location of s3 profiling report

@@ -43,6 +43,7 @@ class ByodDvtStack(core.Stack):
             self,
             "WebToolBucket",
             website_index_document="index.html",
+            website_error_document="index.html",
             public_read_access=True,
         )
 

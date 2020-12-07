@@ -14,7 +14,7 @@ from aws_cdk import (
 )
 from aws_cdk.aws_lambda_event_sources import S3EventSource as _S3EventSource
 from aws_cdk.aws_appsync import AuthorizationConfig, AuthorizationMode, AuthorizationType, UserPoolConfig, LogConfig, FieldLogLevel
-from aws_cdk.aws_iam import FederatedPrincipal, PolicyStatement, Effect
+from aws_cdk.aws_iam import WebIdentityPrincipal, PolicyStatement, Effect
 import os
 
 dirname = os.path.dirname(__file__)
@@ -123,7 +123,7 @@ class ByodDvtStack(core.Stack):
         auth_role = _iam.Role(
             self,
             "CognitoAuthRole",
-            assumed_by=FederatedPrincipal(
+            assumed_by=WebIdentityPrincipal(
                 "cognito-identity.amazonaws.com",
                 {
                     "StringEquals": {
@@ -169,7 +169,7 @@ class ByodDvtStack(core.Stack):
         unauth_role = _iam.Role(
             self,
             "CognitoUnauthRole",
-            assumed_by=_iam.FederatedPrincipal(
+            assumed_by=_iam.WebIdentityPrincipal(
                 "cognito-identity.amazonaws.com",
                 conditions={
                     "StringEquals": {

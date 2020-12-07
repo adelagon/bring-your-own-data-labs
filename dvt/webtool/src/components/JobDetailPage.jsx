@@ -189,6 +189,7 @@ export default function JobDetailPage(props) {
     async function getResult() {
       Auth.currentCredentials()
         .then(credentials => {
+          console.log("ALVINATOR!!!");
           const s3 = new S3({
             credentials: Auth.essentialCredentials(credentials)
           });
@@ -265,10 +266,10 @@ export default function JobDetailPage(props) {
           </TableContainer>
 
           <div className={classes.root}>
-            {field.status === "pending" || field.status == "failed" ?
+            {field.status === "pending" || field.status === "failed" ?
               <Button variant="contained" color="primary" disabled onClick={handleClickOpen}>Stage Data for Workshop</Button>
     : <Button variant="contained" color="primary" onClick={handleClickOpen}>Stage Data for Workshop</Button> }
-            {field.status === "pending" || field.status == "failed" ?
+            {field.status === "pending" || field.status === "failed" ?
               <Button variant="contained" color="primary" disabled onClick={handleClickPOpen}>Run Data Profiling Job</Button>
     : <Button variant="contained" color="primary" onClick={handleClickPOpen}>Run Data Profiling Job</Button> }
             <Button variant="contained" color="primary" disabled>Share Results</Button>

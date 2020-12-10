@@ -1,5 +1,5 @@
 const awssdk = {
-  "region": "ap-southeast-1",
+  "region": "<DVTRegion>",
   "stager_function": "<StagerLambdaFunction>",
   "sqs_profile_url": "<SQSProfileQueue>",
   "source_s3_bucket": "<SourceS3Bucket>",

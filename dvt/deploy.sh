@@ -24,6 +24,9 @@ printf "SQSProfileQueue=" >> outputs.txt
 aws cloudformation --profile=$1 describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='SQSProfileQueue'].OutputValue" --output=text >> outputs.txt
 printf "StagerLambdaFunction=" >> outputs.txt
 aws cloudformation --profile=$1 describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='StagerLambdaFunction'].OutputValue" --output=text >> outputs.txt
+printf "DVTRegion=" >> outputs.txt
+aws cloudformation --profile=$1 describe-stacks --stack-name byod-dvt --query="Stacks[0].Outputs[?OutputKey=='DVTRegion'].OutputValue" --output=text >> outputs.txt
+
 mv outputs.txt webtool/src/
 cd webtool/src/
 ./generate_config.py

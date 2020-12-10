@@ -47,6 +47,7 @@ class ByodDvtStack(core.Stack):
             public_read_access=True,
         )
 
+        core.CfnOutput(self, "DVTRegion", value=self.region)
         core.CfnOutput(self, "SourceS3Bucket", value=source_csv_bucket.bucket_name)
         core.CfnOutput(self, "TargetS3Bucket", value=target_csv_bucket.bucket_name)
         core.CfnOutput(self, "WebToolS3Bucket", value=webtool_bucket.bucket_name)

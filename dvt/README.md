@@ -59,3 +59,22 @@ $ ./install_deps.sh
 $ ./deploy.sh dvt
 ```
 > &#9888; Replace *dvt* if you used a different profile name in Step 3.
+
+## Cleanup
+
+1. CloudFormation - delete stack
+
+    - [ ] byod-dvt
+    
+1. Manual cleanup
+    - [ ] delete buckets
+    - [ ] delete dynamodb
+    - [ ] delete ecr repository
+
+1. CloudFormation - delete stack
+
+    - [ ] CDKToolkit
+    
+1. CloudFormation - delete stack
+
+    - [ ] aws-cloud9*
